@@ -71,6 +71,7 @@ class LinksGroup extends Component {
               activeClassName={s.headerLinkActive}
               exact={exact}
               target={this.props.target}
+              onClick={() => this.props.onActiveSidebarItemChange(this.props.index)}
             >
               <span className={s.icon}>
                 {this.props.iconName}

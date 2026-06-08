@@ -3,6 +3,12 @@
 .map {
   position: relative;
   height: 500px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(57, 121, 246, 0.12), transparent 28rem),
+    var(--hs-map-bg, rgba(255, 255, 255, 0.08));
+  border: 1px solid var(--hs-card-border, rgba(255, 255, 255, 0.08));
+  border-radius: 28px;
   svg {
     height: 500px;
   }
@@ -13,9 +19,16 @@
   top: 0;
   left: 0;
   margin: 5% 10%;
+  padding: 14px 18px;
+  color: var(--hs-page-text, #fff);
+  background: var(--hs-map-stat-bg, rgba(8, 13, 31, 0.62));
+  border: 1px solid var(--hs-card-border, rgba(255,255,255,0.1));
+  border-radius: 18px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.16);
+  backdrop-filter: blur(12px);
 }
 
 .mapChart {
   position: relative;
-  margin: (-$widget-padding-vertical) (-$widget-padding-horizontal) 0;
+  margin: 0;
 }

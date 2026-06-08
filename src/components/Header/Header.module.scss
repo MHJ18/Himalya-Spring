@@ -1,8 +1,26 @@
 @import '../../styles/app';
 
+:global(.navbar) {
+  position: relative;
+  z-index: 3900;
+  overflow: visible;
+}
+
 .root {
+  position: relative;
+  z-index: 4000;
+  overflow: visible;
   display: flex;
   justify-content: flex-end !important;
+  min-height: 62px;
+  margin: 16px $content-padding 0;
+  padding: 8px 14px;
+  color: var(--hs-header-text, #{$white});
+  background: var(--hs-header-bg, rgba(18, 20, 43, 0.72));
+  border: 1px solid var(--hs-header-border, rgba(255,255,255,0.08));
+  border-radius: 22px;
+  box-shadow: var(--hs-header-shadow, 0 18px 50px rgba(0,0,0,0.18));
+  backdrop-filter: blur(18px);
   @media (max-width: breakpoint-max(sm)) {
     margin-bottom: 50px;
   }
@@ -146,6 +164,10 @@
   background: $icon-color;
 }
 
+.headerNav {
+  align-items: center;
+}
+
 .navItem {
   font-size: 1.5rem;
   outline: 0;
@@ -153,7 +175,7 @@
 
   &:hover,
   &:focus {
-    color: $white !important;
+    color: var(--hs-header-hover, #{$white}) !important;
   }
 
   :global(.glyphicon),
@@ -179,10 +201,11 @@
 }
 
 .dropdownMenu {
-  background: $main-background !important;
+  z-index: 4100 !important;
+  background: var(--hs-dropdown-bg, #{$main-background}) !important;
   box-shadow: 0 0px 40px 2px rgba(#020202,.5);
-  border: none;
-  color: $white;
+  border: 1px solid var(--hs-card-border, transparent);
+  color: var(--hs-page-text, #{$white});
 
   &.messages {
     left: -50px !important;
@@ -266,41 +289,57 @@
 }
 
 .account {
-  width: 180px !important;
+  position: absolute !important;
+  width: 210px !important;
+  right: 0 !important;
+  left: auto !important;
+  top: 58px !important;
+  transform: none !important;
+  padding: 8px;
+  border-radius: 16px !important;
 
   section {
-    padding: 5px 10px;
+    padding: 8px 10px 10px;
     font-weight: normal;
+    border-bottom: 1px solid var(--hs-card-border, rgba(255,255,255,0.08));
+    margin-bottom: 6px;
   }
 
   button {
-    padding: 7px 10px;
+    padding: 8px 10px;
     font-weight: $font-weight-thin;
+    border-radius: 10px;
 
     a {
-      color: $white;
+      color: var(--hs-page-text, #{$white});
       padding: 0;
+      text-decoration: none;
     }
 
     i {
-      margin-right: 3px;
+      margin-right: 8px;
     }
+  }
+
+  &::after {
+    right: 20px !important;
   }
 }
 
 .settings {
   border-radius: 3px !important;
-  width: 122px !important;
+  width: 190px !important;
   text-align: center !important;
   min-width: auto;
-  left: -40px !important;
+  left: -74px !important;
+  padding: 14px;
 
   h6 {
     color: #fff;
   }
 
   &::after {
-    right: 53px !important;
+    right: 82px !important;
     left: auto;
   }
 }
@@ -341,7 +380,7 @@
 }
 
 .accountCheck {
-  color: $icon-color;
+  color: var(--hs-header-muted, #{$icon-color});
   font-weight: $font-weight-normal;
   font-size: 1rem;
 }
@@ -385,7 +424,39 @@
 }
 
 .headerIcon {
-  fill: $icon-color;
+  fill: var(--hs-header-icon, #{$icon-color});
+}
+
+.accountDropdown {
+  position: relative;
+  z-index: 4200;
+  padding-left: 2px;
+
+  :global(.dropdown-menu) {
+    position: absolute !important;
+    right: 0 !important;
+    left: auto !important;
+    top: 58px !important;
+    transform: none !important;
+    z-index: 4300 !important;
+  }
+}
+
+.accountToggle {
+  min-height: 46px;
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px 4px 6px !important;
+  color: var(--hs-header-text, #{$white}) !important;
+  background: rgba(127, 167, 220, 0.08);
+  border: 1px solid var(--hs-header-border, rgba(255,255,255,0.08));
+  border-radius: 16px;
+
+  &:hover,
+  &:focus {
+    background: rgba(127, 167, 220, 0.14);
+  }
 }
 
 .settingsIcon {
@@ -397,6 +468,6 @@
 }
 
 .inputGroupText {
-  background: #12142B;
+  background: var(--hs-input-bg, #12142B);
   opacity: .8;
 }

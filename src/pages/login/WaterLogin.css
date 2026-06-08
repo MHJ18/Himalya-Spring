@@ -1,0 +1,197 @@
+.water-login-page {
+  min-height: 100vh;
+  padding: 52px 16px;
+  color: #eaf8ff;
+  background:
+    radial-gradient(circle at 12% 12%, rgba(63, 203, 255, 0.22), transparent 28rem),
+    radial-gradient(circle at 86% 82%, rgba(22, 135, 255, 0.2), transparent 28rem),
+    linear-gradient(145deg, #07111f 0%, #081728 48%, #030b13 100%);
+}
+
+.water-login-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(320px, 430px);
+  gap: clamp(24px, 5vw, 72px);
+  align-items: center;
+  max-width: 1160px;
+  min-height: calc(100vh - 104px);
+  margin: 0 auto;
+}
+
+.water-login-copy {
+  padding: clamp(18px, 4vw, 44px);
+}
+
+.water-login-badge {
+  display: inline-flex;
+  padding: 8px 12px;
+  margin-bottom: 22px;
+  color: #8deaff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: rgba(141, 234, 255, 0.1);
+  border: 1px solid rgba(141, 234, 255, 0.18);
+  border-radius: 999px;
+}
+
+.water-login-copy h1 {
+  max-width: 640px;
+  color: #ffffff;
+  font-size: clamp(42px, 6vw, 74px);
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  line-height: 0.98;
+}
+
+.water-login-copy p {
+  max-width: 560px;
+  margin-top: 20px;
+  color: #9fbdd1;
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.water-login-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 34px;
+}
+
+.water-login-stats span {
+  display: grid;
+  min-width: 150px;
+  padding: 18px;
+  color: #a8c4d6;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(141, 234, 255, 0.12);
+  border-radius: 22px;
+}
+
+.water-login-stats strong {
+  color: #ffffff;
+  font-size: 28px;
+}
+
+.water-login-card {
+  position: relative;
+  padding: 28px;
+  overflow: hidden;
+  background: rgba(7, 20, 34, 0.86);
+  border: 1px solid rgba(141, 234, 255, 0.16);
+  border-radius: 34px;
+  box-shadow: 0 32px 100px rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(22px);
+}
+
+.water-login-card::before {
+  position: absolute;
+  inset: -45% -20% auto auto;
+  width: 260px;
+  height: 260px;
+  content: '';
+  background: radial-gradient(circle, rgba(89, 219, 255, 0.32), transparent 68%);
+}
+
+.water-login-logo {
+  position: relative;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.water-login-logo-mark {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  color: #07111f;
+  font-weight: 900;
+  background: linear-gradient(135deg, #eaffff, #38ccff);
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(56, 204, 255, 0.28);
+}
+
+.water-login-logo h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 25px;
+  font-weight: 900;
+}
+
+.water-login-logo p {
+  margin: 3px 0 0;
+  color: #8daec2;
+}
+
+.water-login-card label {
+  color: #d7edf8;
+  font-weight: 800;
+}
+
+.water-login-field .input-group-text,
+.water-login-field .form-control {
+  min-height: 50px;
+  color: #eaf8ff !important;
+  background: rgba(255, 255, 255, 0.065) !important;
+  border-color: rgba(141, 234, 255, 0.12) !important;
+}
+
+.water-login-field .input-group-text {
+  width: 52px;
+  justify-content: center;
+  color: #75e7ff !important;
+  border-right: 0 !important;
+}
+
+.water-login-field .form-control {
+  border-left: 0 !important;
+}
+
+.water-login-field .form-control::placeholder {
+  color: #6f8fa3;
+}
+
+.water-login-submit {
+  width: 100%;
+  min-height: 52px;
+  margin-top: 12px;
+  color: #061422 !important;
+  font-weight: 900 !important;
+  background: linear-gradient(135deg, #7ff2ff, #3198ff) !important;
+  border: 0 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 18px 45px rgba(49, 152, 255, 0.28);
+}
+
+.water-login-note {
+  margin: 18px 0 0;
+  color: #87a9bd;
+  font-size: 13px;
+  text-align: center;
+}
+
+.water-login-back {
+  display: inline-flex;
+  margin-top: 20px;
+  color: #83e8ff;
+  font-weight: 800;
+}
+
+.water-login-back:hover {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+@media (max-width: 900px) {
+  .water-login-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .water-login-copy {
+    padding-bottom: 0;
+  }
+}

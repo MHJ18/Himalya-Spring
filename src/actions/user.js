@@ -1,3 +1,5 @@
+import { clearCurrentAdmin, findAdminByCredentials, setCurrentAdmin } from '../utils/adminAuth';
+
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
@@ -33,19 +35,20 @@ export function logoutUser() {
     return (dispatch) => {
         dispatch(requestLogout());
         localStorage.removeItem('authenticated');
+        clearCurrentAdmin();
         dispatch(receiveLogout());
     };
 }
 
 export function loginUser(creds) {
     return (dispatch) => {
-
-        dispatch(receiveLogin());
-
-        if (creds.email.length > 0 && creds.password.length > 0) {
-            localStorage.setItem('authenticated', true)
+        const admin = findAdminByCredentials(creds.email, creds.password);
+        if (admin) {
+            localStorage.setItem('authenticated', true);
+            setCurrentAdmin(admin);
+            dispatch(receiveLogin());
         } else {
-            dispatch(loginError('Something was wrong. Try again'));
+            dispatch(loginError('Only registered admins can access the dashboard.'));
         }
     }
 }

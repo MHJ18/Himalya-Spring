@@ -11,7 +11,7 @@
   position: relative;
   min-height: 100vh;
   display: flex;
-  margin-left: $sidebar-width-open;
+  margin-left: $sidebar-width-open + 25px;
   flex-direction: column;
   left: 0;
   right: 0;
@@ -28,7 +28,7 @@
 
   :global(.sidebar-right) & {
     margin-left: 0;
-    margin-right: $sidebar-width-open;
+    margin-right: $sidebar-width-open + 25px;
   }
 
   :global(.sidebar-hide) & {
@@ -41,6 +41,7 @@
   flex-grow: 1;
   // 20px for footer height
   padding: 25px $content-padding ($content-padding + 20px);
+  overflow: hidden;
 
   @media (max-width: breakpoint-max(sm)) {
     padding: 20px 15px;

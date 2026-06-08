@@ -86,17 +86,18 @@
 
 
 .widget {
-  color: $content-color;
+  color: var(--hs-page-muted, #{$content-color});
   display: block;
   position: relative;
   margin-bottom: $grid-gutter-width;
   border-radius: $widget-border-radius;
-  background: $widget-bg-color;
-  box-shadow: $widget-shadow;
+  background: var(--hs-widget-bg, #{$widget-bg-color});
+  border: 1px solid var(--hs-card-border, transparent);
+  box-shadow: var(--hs-widget-shadow, #{$widget-shadow});
   > header {
     transition: padding .3s linear;
     padding: $widget-padding-vertical $widget-padding-horizontal 0;
-    color: $text-color;
+    color: var(--hs-page-text, #{$text-color});
     h1,
     h2,
     h3,
@@ -104,7 +105,7 @@
     h5,
     h6 {
       margin: 0;
-      color: $text-color;
+      color: var(--hs-page-text, #{$text-color});
     }
   }
 
@@ -138,6 +139,8 @@
   }
 
   &:global.bg-transparent {
+    background: transparent;
+    border-color: transparent;
     box-shadow: none;
   }
 }

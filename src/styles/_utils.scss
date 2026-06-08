@@ -641,16 +641,24 @@ $i: 0;
 .fade-enter {
   opacity: 0;
   z-index: 1;
-  -webkit-transform: translate3d(0, 4%, 0) scale(0.93);
-  transform: translate3d(0, 4%, 0) scale(0.93);
+  transform: translate3d(12px, 0, 0);
 }
 
 .fade-enter.fade-enter-active {
   opacity: 1;
-  transition: opacity 200ms ease-in, -webkit-transform 200ms ease-in,
-    transform 200ms ease-in;
-  -webkit-transform: translate3d(0, 0, 0) scale(1);
-  transform: translate3d(0, 0, 0) scale(1);
+  transition: opacity 280ms ease-out, transform 280ms ease-out;
+  transform: translate3d(0, 0, 0);
+}
+
+.fade-exit {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.fade-exit.fade-exit-active {
+  opacity: 0;
+  transition: opacity 200ms ease-in, transform 200ms ease-in;
+  transform: translate3d(-8px, 0, 0);
 }
 
 .btn-custom-dark {
