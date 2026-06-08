@@ -1,7 +1,8 @@
 import { loadFromStorage, saveToStorage } from '../../utils/storage';
 import { STORAGE_KEYS } from '../../data/constants';
 import { buildCustomersCsv, buildSalesCsv } from '../../utils/exportCsv';
-import { fetchCloudCustomers, syncCustomersToCloud } from '../cloud/supabaseSync';
+import { getCloudCustomers, saveCloudCustomers } from '../cloud/himalayaDb';
+import { syncCustomersToCloud } from '../cloud/supabaseSync';
 
 function saveCsvMirror(customers) {
   const customersCsv = buildCustomersCsv(customers);
@@ -13,11 +14,15 @@ function saveCsvMirror(customers) {
 
 export const customerApi = {
   async getAll() {
-    const cloudCustomers = await fetchCloudCustomers();
-    if (cloudCustomers) {
-      saveToStorage(STORAGE_KEYS.CUSTOMERS, cloudCustomers);
-      saveCsvMirror(cloudCustomers);
-      return cloudCustomers;
+    try {
+      const cloudCustomers = await getCloudCustomers();
+      if (cloudCustomers) {
+        saveToStorage(STORAGE_KEYS.CUSTOMERS, cloudCustomers);
+        saveCsvMirror(cloudCustomers);
+        return cloudCustomers;
+      }
+    } catch {
+      // Local data remains available if Supabase tables are not created yet.
     }
     const customers = loadFromStorage(STORAGE_KEYS.CUSTOMERS, []);
     saveCsvMirror(customers);
@@ -26,7 +31,11 @@ export const customerApi = {
   async saveAll(customers) {
     saveToStorage(STORAGE_KEYS.CUSTOMERS, customers);
     const csvMirror = saveCsvMirror(customers);
-    await syncCustomersToCloud(customers, csvMirror);
+    try {
+      await saveCloudCustomers(customers);
+    } catch {
+      await syncCustomersToCloud(customers, csvMirror);
+    }
     return customers;
   },
 };

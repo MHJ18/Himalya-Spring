@@ -67,7 +67,7 @@ function WaterLogin({ dispatch, isFetching, errorMessage, location }) {
             <Button type="submit" className="water-login-submit">
               {isFetching ? 'Signing in...' : 'Sign in to dashboard'}
             </Button>
-            <p className="water-login-note">Default admin: admin@himaliya.com / admin123</p>
+            <p className="water-login-note">Use your Supabase admin email and password.</p>
           </form>
           <Link className="water-login-back" to="/">Back to landing</Link>
         </section>

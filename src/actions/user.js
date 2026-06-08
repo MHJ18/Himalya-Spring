@@ -41,14 +41,14 @@ export function logoutUser() {
 }
 
 export function loginUser(creds) {
-    return (dispatch) => {
-        const admin = findAdminByCredentials(creds.email, creds.password);
-        if (admin) {
+    return async (dispatch) => {
+        try {
+            const admin = await findAdminByCredentials(creds.email, creds.password);
             localStorage.setItem('authenticated', true);
             setCurrentAdmin(admin);
             dispatch(receiveLogin());
-        } else {
-            dispatch(loginError('Only registered admins can access the dashboard.'));
+        } catch (error) {
+            dispatch(loginError(error.message || 'Only registered admins can access the dashboard.'));
         }
     }
 }

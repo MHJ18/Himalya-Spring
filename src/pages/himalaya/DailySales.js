@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Row, Col, Input, Button, InputGroup, InputGroupAddon, InputGroupText, Badge, FormGroup, Label,
 } from 'reactstrap';
@@ -12,18 +12,10 @@ import { useSales } from '../../context/SalesContext';
 import { normalizePhone } from '../../utils/validation';
 import { getCustomerAvatar } from '../../utils/customerPhotos';
 import { BOTTLE_TYPES } from '../../data/constants';
+import { getBottlePrices, saveBottlePrices } from '../../services/api/bottlePriceApi';
 
-const priceStorageKey = 'ws_daily_sale_price_defaults';
 const defaultPriceTypes = BOTTLE_TYPES.slice(0, 3);
 const defaultPrices = defaultPriceTypes.reduce((acc, type) => ({ ...acc, [type]: '' }), {});
-
-function loadPriceDefaults() {
-  try {
-    return { ...defaultPrices, ...JSON.parse(localStorage.getItem(priceStorageKey) || '{}') };
-  } catch {
-    return defaultPrices;
-  }
-}
 
 export default function DailySales() {
   const {
@@ -35,7 +27,11 @@ export default function DailySales() {
   const [selectedId, setSelectedId] = useState(null);
   const [searched, setSearched] = useState(false);
   const [saleLoading, setSaleLoading] = useState(false);
-  const [priceDefaults, setPriceDefaults] = useState(loadPriceDefaults);
+  const [priceDefaults, setPriceDefaults] = useState(defaultPrices);
+
+  useEffect(() => {
+    getBottlePrices(defaultPrices).then(setPriceDefaults);
+  }, []);
 
   const customer = useMemo(() => {
     if (!selectedId) return null;
@@ -82,7 +78,7 @@ export default function DailySales() {
   const updatePriceDefault = (type, value) => {
     const next = { ...priceDefaults, [type]: value };
     setPriceDefaults(next);
-    localStorage.setItem(priceStorageKey, JSON.stringify(next));
+    saveBottlePrices(next);
   };
 
   if (loading) return <PageShell title="Daily Sales Entry"><p className="text-muted">Loading...</p></PageShell>;

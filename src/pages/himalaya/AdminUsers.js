@@ -26,7 +26,7 @@ export default function AdminUsers() {
   const currentAdmin = getCurrentAdmin();
 
   useEffect(() => {
-    setAdmins(getAdmins());
+    getAdmins().then(setAdmins).catch(() => setAdmins([]));
   }, []);
 
   const updateForm = (field, value) => {
@@ -34,7 +34,7 @@ export default function AdminUsers() {
     setForm((current) => ({ ...current, [field]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!form.name.trim() || !form.email.trim() || !form.password) {
@@ -48,7 +48,7 @@ export default function AdminUsers() {
     }
 
     try {
-      const admin = createAdmin(form);
+      const admin = await createAdmin(form);
       setAdmins((current) => [...current, admin]);
       setForm(initialForm);
       toast.success('Admin created');
@@ -69,7 +69,7 @@ export default function AdminUsers() {
     setDeleteError('');
   };
 
-  const handleDeleteAdmin = () => {
+  const handleDeleteAdmin = async () => {
     if (!deleteTarget) return;
     if (!ownerPassword) {
       setDeleteError('Enter the owner password to delete this admin.');
@@ -77,7 +77,7 @@ export default function AdminUsers() {
     }
 
     try {
-      const nextAdmins = deleteAdminWithOwnerPassword(deleteTarget.id, ownerPassword);
+      const nextAdmins = await deleteAdminWithOwnerPassword(deleteTarget.id, ownerPassword);
       setAdmins(nextAdmins);
       toast.success('Admin deleted');
       closeDeleteModal();
