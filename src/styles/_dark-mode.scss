@@ -246,7 +246,17 @@ body.dashboard-dark {
 
 body.dashboard-light,
 body.dashboard-dark {
+  font-size: 15px;
   transition: background 420ms ease, color 320ms ease;
+
+  .page-title {
+    font-size: 1.65rem;
+    line-height: 1.2;
+  }
+
+  .page-title small {
+    font-size: 0.75rem;
+  }
 
   .widget {
     color: var(--hs-page-muted);
@@ -269,6 +279,19 @@ body.dashboard-dark {
   .widget small {
     color: inherit;
   }
+
+  .widget p,
+  .widget td,
+  .widget th,
+  .widget label {
+    font-size: 0.9rem;
+  }
+
+  .widget h2 { font-size: 1.3rem; }
+  .widget h3 { font-size: 1.15rem; }
+  .widget h4,
+  .widget h5,
+  .widget h6 { font-size: 1rem; }
 
   .table-striped tbody tr:nth-of-type(odd) {
     background-color: rgba(36, 119, 255, 0.055);
