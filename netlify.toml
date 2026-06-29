@@ -1,0 +1,10 @@
+[build]
+  command = "npm run build"
+  publish = "build"
+
+# React Router owns application routes. Netlify must serve the SPA shell when
+# a visitor refreshes or directly opens a private route such as /app/customers.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
