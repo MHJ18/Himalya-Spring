@@ -478,6 +478,14 @@ body.dashboard-light .himalaya-add-customer .MuiDivider-root {
   min-height: 42px;
 }
 
+.sales-form-saved-price {
+  display: block;
+  margin-top: 7px;
+  color: #72dcff !important;
+  font-size: 12px;
+  font-weight: 700;
+}
+
 .daily-sales-price-card {
   margin-top: 20px;
   overflow: hidden;
@@ -901,8 +909,47 @@ body.dashboard-light .himalaya-add-customer .MuiDivider-root {
 }
 
 @media (max-width: 767px) {
+  body.dashboard-light,
+  body.dashboard-dark {
+    font-size: 14px;
+
+    .page-title {
+      font-size: 1.4rem;
+      line-height: 1.25;
+    }
+
+    .page-title small,
+    .widget p,
+    .widget td,
+    .widget th,
+    .widget label,
+    .widget small {
+      font-size: 0.82rem;
+    }
+
+    .widget h2 { font-size: 1.15rem; }
+    .widget h3 { font-size: 1.05rem; }
+    .widget h4,
+    .widget h5,
+    .widget h6 { font-size: 0.95rem; }
+
+    .btn {
+      font-size: 0.82rem;
+    }
+
+    .form-control,
+    select.form-control,
+    textarea.form-control {
+      font-size: 16px;
+    }
+  }
+
   .daily-sales-hero {
     padding: 22px;
+  }
+
+  .daily-sales-hero h2 {
+    font-size: 1.55rem;
   }
 
   .daily-sales-bubbles {

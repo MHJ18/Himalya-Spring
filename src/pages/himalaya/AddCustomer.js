@@ -15,6 +15,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import CloseIcon from '@material-ui/icons/Close';
 import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
 import EventIcon from '@material-ui/icons/Event';
+import EditIcon from '@material-ui/icons/Edit';
 import { toast } from 'react-toastify';
 import { useCustomers } from '../../context/CustomerContext';
 import { DEFAULT_COUNTRY_CODE } from '../../data/constants';
@@ -291,7 +292,7 @@ const useStyles = makeStyles((theme) => ({
 
 const initial = { name: '', phone: DEFAULT_COUNTRY_CODE, address: '', email: '', photo: '' };
 
-export default function AddCustomer() {
+export default function AddCustomer({ history }) {
   const classes = useStyles();
   const { customers, addCustomer, loading: ctxLoading } = useCustomers();
   const [form, setForm] = useState(initial);
@@ -745,6 +746,26 @@ export default function AddCustomer() {
                         </div>
                       </>
                     )}
+                  <Button
+                    size="small"
+                    variant="outlined"
+                    startIcon={<EditIcon />}
+                    onClick={() => history.push(`/app/customers/${selected.id}/edit`)}
+                    style={{
+                      marginTop: 16,
+                      padding: '6px 12px',
+                      color: '#72dcff',
+                      fontWeight: 700,
+                      fontSize: '0.78rem',
+                      textTransform: 'none',
+                      border: '1px solid rgba(114,220,255,0.45)',
+                      borderRadius: 999,
+                      background: 'rgba(36,119,255,0.1)',
+                      boxShadow: '0 8px 20px rgba(3,20,45,0.12)',
+                    }}
+                  >
+                    Edit profile
+                  </Button>
                 </div>
               </Card>
             </Fade>

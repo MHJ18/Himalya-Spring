@@ -340,6 +340,21 @@
   }
 }
 
+.dropdownFooter {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100%;
+  height: auto !important;
+  min-height: 38px !important;
+  padding: 0 !important;
+  border-top: 1px solid var(--hs-card-border, rgba(255,255,255,.08)) !important;
+
+  a { display: flex; align-items: center; justify-content: center; gap: 0.45rem; width: 100%; min-height: 38px; padding: 0.45rem 0.8rem; color: var(--hs-page-text, #fff) !important; font-size: 0.78rem; font-weight: 700; line-height: 1; text-align: center; text-decoration: none; }
+}
+
+.dropdownFooterIcon { display: block; width: 14px !important; min-width: 14px; height: 14px !important; fill: currentColor; color: currentColor; }
+
 .account {
   position: absolute !important;
   width: 210px !important;

@@ -77,7 +77,7 @@ class Header extends React.Component {
                 <DropdownItem><img className={s.image} src={getCustomerAvatar(0)} alt="" /><div className={s.details}><div>Ali Khan</div><div className={s.text}>19L gallon delivered — Clifton</div></div></DropdownItem>
                 <DropdownItem><img className={s.image} src={getCustomerAvatar(2)} alt="" /><div className={s.details}><div>Sara Ahmed</div><div className={s.text}>Bottle deposit received</div></div></DropdownItem>
                 <DropdownItem><img className={s.image} src={getCustomerAvatar(4)} alt="" /><div className={s.details}><div>Hassan Traders</div><div className={s.text}>Weekly order confirmed</div></div></DropdownItem>
-                <DropdownItem><Link to="/messages" className="text-white">See all messages <ArrowIcon className={s.headerIcon} maskName="messagesArrow" /></Link></DropdownItem>
+                <DropdownItem className={s.dropdownFooter}><Link to="/messages">See all messages <ArrowIcon className={s.dropdownFooterIcon} maskName="messagesArrow" /></Link></DropdownItem>
               </DropdownMenu>
             </Dropdown>
             <DarkModeToggle />
@@ -89,7 +89,7 @@ class Header extends React.Component {
               <DropdownMenu right className={`${s.dropdownMenu} ${s.support}`}>
                 <DropdownItem><Badge color="danger"><i className="fa fa-bell-o" /></Badge><div className={s.details}>Morning Karachi route dispatched</div></DropdownItem>
                 <DropdownItem><Badge color="success"><i className="fa fa-info-circle" /></Badge><div className={s.details}>Daily gallon sales target reached</div></DropdownItem>
-                <DropdownItem><Link to="/notifications" className="text-white">See all <ArrowIcon className={s.headerIcon} maskName="bellArrow" /></Link></DropdownItem>
+                <DropdownItem className={s.dropdownFooter}><Link to="/notifications">See all notifications <ArrowIcon className={s.dropdownFooterIcon} maskName="bellArrow" /></Link></DropdownItem>
               </DropdownMenu>
             </Dropdown>
             <NavItem className={`${s.divider} ${s.desktopOnly}`} />

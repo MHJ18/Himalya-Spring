@@ -1,7 +1,7 @@
 create table if not exists public.customer_invoices (
   id uuid primary key default gen_random_uuid(),
   owner_id uuid not null default private.current_owner_id() references auth.users(id),
-  customer_id uuid not null,
+  customer_id text not null,
   invoice_number text not null,
   invoice_date timestamptz not null default now(),
   payload jsonb not null,
@@ -52,3 +52,5 @@ $$;
 
 revoke all on function public.lookup_invoice_by_number(text) from public;
 grant execute on function public.lookup_invoice_by_number(text) to anon, authenticated;
+
+notify pgrst, 'reload schema';

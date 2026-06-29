@@ -430,24 +430,27 @@ html {
 .hero-headline {
   max-width: 600px;
   margin: 0 0 20px;
-  color: #f7fcff;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
   font-size: clamp(2.25rem, 5.2vw, 3.75rem);
   font-weight: 800;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
   line-height: 1.08;
+  text-shadow: 0 3px 26px rgba(0, 0, 0, 0.58);
 }
 
 .hero-headline-word {
   display: inline-block;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
 }
 
 .hero-headline-word:nth-child(2),
 .hero-headline-word:nth-child(4),
 .hero-headline-word:nth-child(6) {
-  background: linear-gradient(135deg, #fff 30%, #72ecff 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #83eaff !important;
+  background: none;
+  -webkit-text-fill-color: #83eaff !important;
 }
 
 .hero-subtext {
@@ -1323,10 +1326,11 @@ html {
 .landing-cta h2,
 .story-panel h2 {
   margin: 0;
-  color: #ffffff;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
   font-size: clamp(1.75rem, 3.5vw, 2.5rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
   line-height: 1.12;
 }
 
@@ -1496,15 +1500,18 @@ html {
 
 .bento-card h3 {
   margin: 18px 0 0;
-  color: #fff;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
   font-size: 1.125rem;
   font-weight: 700;
 }
 
 .bento-card p {
   margin: 8px 0 0;
-  color: #d5e7f2;
+  color: #edf6fc !important;
+  -webkit-text-fill-color: #edf6fc !important;
   font-size: 0.9375rem;
+  font-weight: 500;
   line-height: 1.6;
 }
 
@@ -1517,12 +1524,27 @@ html {
 
 .bento-card-metrics span {
   padding: 6px 9px;
-  color: #bdeeff;
+  color: #d9f7ff !important;
+  -webkit-text-fill-color: #d9f7ff !important;
   font-size: 0.72rem;
   font-weight: 700;
   background: rgba(80, 192, 255, 0.09);
   border: 1px solid rgba(121, 220, 255, 0.13);
   border-radius: 999px;
+}
+
+.himalaya-landing .story-panel h2,
+.himalaya-landing .bento-card h3,
+.himalaya-landing .landing-cta h2 {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.himalaya-landing .story-panel p,
+.himalaya-landing .bento-card p,
+.himalaya-landing .landing-cta p {
+  color: #edf6fc !important;
+  -webkit-text-fill-color: #edf6fc !important;
 }
 
 .operation-icon {
@@ -1674,6 +1696,27 @@ html {
 }
 
 @media (max-width: 600px) {
+  .himalaya-landing {
+    font-size: 15px;
+  }
+
+  .hero-headline {
+    font-size: 2rem;
+  }
+
+  .hero-subtext,
+  .section-lead,
+  .story-panel p,
+  .bento-card p,
+  .landing-cta p {
+    font-size: 0.9rem;
+  }
+
+  .section-heading h2,
+  .landing-cta h2,
+  .story-panel h2 {
+    font-size: 1.55rem;
+  }
   .water-pour-scene {
     min-height: 500px;
     border-radius: 26px;

@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Button, FormGroup, Label, Input, FormFeedback, Row, Col } from 'reactstrap';
-import { BOTTLE_TYPES } from '../../data/constants';
+import { BOTTLE_TYPES, BOTTLE_TYPE_LABELS } from '../../data/constants';
 import { validateSaleForm } from '../../utils/validation';
 import { formatCurrency } from '../../utils/formatters';
 
@@ -36,9 +36,14 @@ export default function SalesFormBootstrap({ onSubmit, loading, priceDefaults })
         <Label>Bottle Type *</Label>
         <Input type="select" name="bottleType" value={form.bottleType} onChange={handleBottleTypeChange} invalid={!!errors.bottleType}>
           <option value="">Select type</option>
-          {BOTTLE_TYPES.map((bt) => <option key={bt} value={bt}>{bt}</option>)}
+          {BOTTLE_TYPES.map((bt) => <option key={bt} value={bt}>{BOTTLE_TYPE_LABELS[bt] || bt}</option>)}
         </Input>
         <FormFeedback>{errors.bottleType}</FormFeedback>
+        {form.bottleType && priceDefaults && priceDefaults[form.bottleType] !== '' && (
+          <small className="sales-form-saved-price">
+            Saved unit price: {formatCurrency(priceDefaults[form.bottleType])}
+          </small>
+        )}
       </FormGroup>
       <Row>
         <Col md={6}>
@@ -50,7 +55,7 @@ export default function SalesFormBootstrap({ onSubmit, loading, priceDefaults })
         </Col>
         <Col md={6}>
           <FormGroup>
-            <Label>Price (PKR) *</Label>
+            <Label>Unit Price (PKR) *</Label>
             <Input type="number" min="0" value={form.pricePerBottle} onChange={(e) => setForm({ ...form, pricePerBottle: e.target.value })} invalid={!!errors.pricePerBottle} />
             <FormFeedback>{errors.pricePerBottle}</FormFeedback>
           </FormGroup>

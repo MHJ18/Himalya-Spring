@@ -10,6 +10,25 @@ function safeText(value, fallback = '—') {
   return text || fallback;
 }
 
+function drawCompanyLogo(doc, x, y, size) {
+  const centerX = x + (size / 2);
+  doc.setFillColor(15, 111, 184);
+  doc.roundedRect(x, y, size, size, 5, 5, 'F');
+
+  // A simple vector water drop stays crisp at every PDF zoom level.
+  doc.setFillColor(125, 226, 255);
+  doc.triangle(centerX, y + (size * 0.16), x + (size * 0.28), y + (size * 0.58), x + (size * 0.72), y + (size * 0.58), 'F');
+  doc.circle(centerX, y + (size * 0.58), size * 0.22, 'F');
+  doc.setFillColor(255, 255, 255);
+  doc.circle(x + (size * 0.44), y + (size * 0.49), size * 0.045, 'F');
+
+  doc.setDrawColor(221, 248, 255);
+  doc.setLineWidth(0.55);
+  doc.line(x + (size * 0.22), y + (size * 0.82), x + (size * 0.78), y + (size * 0.82));
+  doc.setDrawColor(91, 205, 245);
+  doc.line(x + (size * 0.31), y + (size * 0.9), x + (size * 0.69), y + (size * 0.9));
+}
+
 function buildLocalInvoice(customer, historyItems = [], company = DEFAULT_SETTINGS) {
   const totalAmount = historyItems.reduce((sum, item) => sum + Number(item.totalAmount || 0), 0);
   const totalQty = historyItems.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
@@ -79,57 +98,63 @@ export function exportInvoicePdf(invoice) {
   doc.setFillColor(255, 255, 255);
   doc.rect(0, 0, 210, 297, 'F');
 
-  doc.setDrawColor(accent[0], accent[1], accent[2]);
-  doc.setLineWidth(0.8);
-  doc.line(14, 18, 196, 18);
+  doc.setFillColor(7, 17, 31);
+  doc.rect(0, 0, 210, 38, 'F');
+  drawCompanyLogo(doc, 14, 8, 22);
 
-  doc.setTextColor(ink[0], ink[1], ink[2]);
+  doc.setTextColor(255, 255, 255);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(20);
-  doc.text(safeText(company.name, 'Himaliya Spring Water'), 14, 14);
+  doc.setFontSize(18);
+  doc.text(safeText(company.name, 'Himaliya Spring Water'), 42, 17);
 
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(9);
-  doc.setTextColor(muted[0], muted[1], muted[2]);
-  doc.text(safeText(company.address, 'Karachi, Pakistan'), 14, 28);
-  doc.text(safeText(company.phone, ''), 14, 33);
+  doc.setFontSize(8.5);
+  doc.setTextColor(190, 233, 255);
+  doc.text('Premium water delivery and customer account record', 42, 23);
+  doc.text(
+    `${safeText(company.address, 'Karachi, Pakistan')} | ${safeText(company.phone, '')}`,
+    42,
+    29
+  );
 
+  doc.setFillColor(239, 248, 255);
+  doc.roundedRect(147, 8, 49, 23, 3, 3, 'F');
   doc.setTextColor(accent[0], accent[1], accent[2]);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(10);
-  doc.text('INVOICE', 196, 12, { align: 'right' });
+  doc.setFontSize(8);
+  doc.text('INVOICE', 151, 15);
   doc.setTextColor(ink[0], ink[1], ink[2]);
-  doc.setFontSize(12);
-  doc.text(invoiceNumber, 196, 20, { align: 'right' });
+  doc.setFontSize(10.5);
+  doc.text(invoiceNumber, 151, 21);
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(9);
+  doc.setFontSize(7.5);
   doc.setTextColor(muted[0], muted[1], muted[2]);
-  doc.text(billDate.toLocaleDateString('en-PK'), 196, 26, { align: 'right' });
+  doc.text(billDate.toLocaleDateString('en-PK'), 151, 27);
 
-  doc.setDrawColor(226, 232, 240);
-  doc.setLineWidth(0.2);
-  doc.line(14, 38, 196, 38);
+  doc.setDrawColor(accent[0], accent[1], accent[2]);
+  doc.setLineWidth(0.5);
+  doc.line(14, 41, 196, 41);
 
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8);
   doc.setTextColor(muted[0], muted[1], muted[2]);
-  doc.text('BILL TO', 14, 46);
-  doc.text('PREPARED BY', 110, 46);
+  doc.text('BILL TO', 14, 49);
+  doc.text('PREPARED BY', 110, 49);
 
   doc.setTextColor(ink[0], ink[1], ink[2]);
   doc.setFontSize(11);
-  doc.text(safeText(customer.name, 'Customer'), 14, 53);
-  doc.text(safeText(preparedBy.name, 'Admin'), 110, 53);
+  doc.text(safeText(customer.name, 'Customer'), 14, 56);
+  doc.text(safeText(preparedBy.name, 'Admin'), 110, 56);
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9);
   doc.setTextColor(muted[0], muted[1], muted[2]);
-  doc.text(`Phone: ${safeText(customer.phone)}`, 14, 59);
-  doc.text(`Address: ${safeText(customer.address)}`, 14, 64);
-  doc.text(`Role: ${safeText(preparedBy.role, 'Owner')}`, 110, 59);
-  doc.text(`Email: ${safeText(preparedBy.email)}`, 110, 64);
+  doc.text(`Phone: ${safeText(customer.phone)}`, 14, 62);
+  doc.text(`Address: ${safeText(customer.address)}`, 14, 67);
+  doc.text(`Role: ${safeText(preparedBy.role, 'Owner')}`, 110, 62);
+  doc.text(`Email: ${safeText(preparedBy.email)}`, 110, 67);
 
-  const summaryY = 72;
+  const summaryY = 75;
   [
     { label: 'Entries', value: String(summary.entryCount || history.length) },
     { label: 'Quantity', value: String(summary.totalQty || 0) },
@@ -150,7 +175,7 @@ export function exportInvoicePdf(invoice) {
   });
 
   autoTable(doc, {
-    startY: 92,
+    startY: 95,
     margin: { left: 14, right: 14 },
     theme: 'plain',
     head: [['Date', 'Bottle Type', 'Qty', 'Unit Price', 'Total']],
@@ -240,18 +265,9 @@ export function exportInvoicePdf(invoice) {
 }
 
 export async function exportCustomerHistoryPdf(customer, historyItems, createInvoice) {
-  let invoice = null;
-  if (typeof createInvoice === 'function') {
-    try {
-      invoice = await createInvoice(customer, historyItems);
-    } catch (error) {
-      invoice = null;
-    }
-  }
-
-  if (!invoice) {
-    invoice = buildLocalInvoice(customer, historyItems);
-  }
+  const invoice = typeof createInvoice === 'function'
+    ? await createInvoice(customer, historyItems)
+    : buildLocalInvoice(customer, historyItems);
 
   exportInvoicePdf(invoice);
   return invoice;

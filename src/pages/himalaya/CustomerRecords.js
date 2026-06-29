@@ -15,6 +15,7 @@ import { formatCurrency } from '../../utils/formatters';
 import { exportCustomerHistoryPdf } from '../../utils/exportPdf';
 import { invoiceApi } from '../../services/api/invoiceApi';
 import { getCustomerAvatar } from '../../utils/customerPhotos';
+import './CustomerRecords.css';
 
 export default function CustomerRecords({ location }) {
   const { customers, loading, searchCustomers } = useCustomers();
@@ -72,12 +73,12 @@ export default function CustomerRecords({ location }) {
               {paginatedItems.length === 0 ? (
                 <p className="text-muted p-3 mb-0">No customers found</p>
               ) : paginatedItems.map((c, idx) => (
-                <button key={c.id} type="button" className={`list-group-item list-group-item-action text-left border-0 ${selectedId === c.id ? 'active' : ''}`} onClick={() => setSelectedId(c.id)}>
-                  <span className="thumb-sm float-left mr">
-                    <img className="rounded-circle" src={c.photo || getCustomerAvatar(idx)} alt="" width={40} height={40} />
+                <button key={c.id} type="button" className={`customer-record-list-item list-group-item list-group-item-action text-left ${selectedId === c.id ? 'active' : ''}`} onClick={() => setSelectedId(c.id)}>
+                  <span className="customer-record-list-avatar">
+                    <img src={c.photo || getCustomerAvatar(idx)} alt="" />
                     <i className="status status-bottom bg-success" />
                   </span>
-                  <div><h6 className="m-0">{c.name}</h6><small className="text-muted">{c.phone}</small></div>
+                  <div className="customer-record-list-copy"><h6 className="m-0">{c.name}</h6><small className="text-muted">{c.phone}</small></div>
                 </button>
               ))}
             </div>

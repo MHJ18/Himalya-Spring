@@ -65,6 +65,29 @@ export function CustomerProvider({ children }) {
     return customer;
   }, [state.customers, persist]);
 
+  const updateCustomer = useCallback(async (customerId, form) => {
+    const phone = normalizePhone(form.phone);
+    if (state.customers.some((customer) => customer.id !== customerId && customer.phone === phone)) {
+      throw new Error('A customer with this phone number already exists');
+    }
+
+    const currentCustomer = state.customers.find((customer) => customer.id === customerId);
+    if (!currentCustomer) throw new Error('Customer not found');
+
+    const updatedCustomer = {
+      ...currentCustomer,
+      name: form.name.trim(),
+      phone,
+      address: form.address.trim(),
+      email: (form.email || '').trim(),
+      photo: form.photo || '',
+    };
+    await persist(state.customers.map((customer) => (
+      customer.id === customerId ? updatedCustomer : customer
+    )));
+    return updatedCustomer;
+  }, [state.customers, persist]);
+
   const findByPhone = useCallback((phone) => {
     const n = normalizePhone(phone);
     return state.customers.find((c) => c.phone === n);
@@ -94,11 +117,12 @@ export function CustomerProvider({ children }) {
     loading: state.loading,
     error: state.error,
     addCustomer,
+    updateCustomer,
     findByPhone,
     searchCustomers,
     addTransaction,
     refresh: () => customerApi.getAll().then((d) => dispatch({ type: 'SET', payload: d })),
-  }), [state, addCustomer, findByPhone, searchCustomers, addTransaction]);
+  }), [state, addCustomer, updateCustomer, findByPhone, searchCustomers, addTransaction]);
 
   return <CustomerContext.Provider value={value}>{children}</CustomerContext.Provider>;
 }

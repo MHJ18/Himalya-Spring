@@ -11,10 +11,10 @@ import { useCustomers } from '../../context/CustomerContext';
 import { useSales } from '../../context/SalesContext';
 import { normalizePhone } from '../../utils/validation';
 import { getCustomerAvatar } from '../../utils/customerPhotos';
-import { BOTTLE_TYPES } from '../../data/constants';
+import { BOTTLE_TYPES, BOTTLE_TYPE_LABELS } from '../../data/constants';
 import { getBottlePrices, saveBottlePrices } from '../../services/api/bottlePriceApi';
 
-const defaultPriceTypes = BOTTLE_TYPES.slice(0, 3);
+const defaultPriceTypes = BOTTLE_TYPES;
 const defaultPrices = defaultPriceTypes.reduce((acc, type) => ({ ...acc, [type]: '' }), {});
 
 export default function DailySales() {
@@ -169,10 +169,10 @@ export default function DailySales() {
               </div>
               <Row className="price-default-grid">
                 {defaultPriceTypes.map((type) => (
-                  <Col md={4} className="mb-3 mb-md-0" key={type}>
+                  <Col sm={6} xl={3} className="mb-3" key={type}>
                     <FormGroup className="price-default-item mb-0">
                       <Label>
-                        <span>{type}</span>
+                        <span>{BOTTLE_TYPE_LABELS[type] || type}</span>
                         <small>PKR</small>
                       </Label>
                       <Input

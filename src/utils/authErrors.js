@@ -10,7 +10,7 @@ export function mapLoginError(error) {
     || normalized.includes('invalid email or password')
     || normalized.includes('invalid_grant')
   ) {
-    return 'Incorrect email or password. Please check your details and try again.';
+    return 'Incorrect username or password.';
   }
 
   if (normalized.includes('email not confirmed')) {

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { MotionConfig } from 'framer-motion';
 import { BrowserRouter, Switch, Route, Redirect, withRouter } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import ErrorPage from '../pages/error/ErrorPage';
 import '../styles/theme.scss';
 import LayoutComponent from './Layout/Layout';
@@ -10,9 +10,12 @@ import WaterLogin from '../pages/login/WaterLogin';
 import Landing from '../pages/landing/Landing';
 import PublicInvoice from '../pages/invoice/PublicInvoice';
 import AppProviders from '../context/AppProviders';
-import { logoutUser } from '../actions/user';
-import { getSessionExpiredEventName, hasStoredSession } from '../services/cloud/supabaseClient';
 import { receiveLogout } from '../actions/user';
+import {
+  getSessionExpiredEventName,
+  hasSessionExpiredNotice,
+  hasStoredSession,
+} from '../services/cloud/supabaseClient';
 
 const CloseButton = ({ closeToast }) => (
   <i onClick={closeToast} className="la la-close notifications-close" role="presentation" />
@@ -20,8 +23,15 @@ const CloseButton = ({ closeToast }) => (
 
 const PrivateRoute = ({ dispatch, component, ...rest }) => {
   if (!hasStoredSession()) {
-    dispatch(logoutUser());
-    return <Redirect to="/login" />;
+    dispatch(receiveLogout());
+    return (
+      <Redirect
+        to={{
+          pathname: '/login',
+          state: hasSessionExpiredNotice() ? { sessionExpired: true } : undefined,
+        }}
+      />
+    );
   }
   return <Route {...rest} render={(props) => React.createElement(component, props)} />;
 };
@@ -37,7 +47,6 @@ class SessionExpiryHandler extends React.PureComponent {
 
   handleExpiry = () => {
     this.props.dispatch(receiveLogout());
-    toast.error('Your session has expired. Please sign in again.');
     this.props.history.replace('/login', { sessionExpired: true });
   };
 

@@ -49,17 +49,27 @@ export const invoiceApi = {
     const payload = buildInvoicePayload(customer, historyItems, company);
     const invoiceNumber = generateInvoiceNumber();
 
-    const rows = await dbRequest('/customer_invoices', {
-      method: 'POST',
-      body: JSON.stringify([{
-        customer_id: customer.id,
-        invoice_number: invoiceNumber,
-        invoice_date: new Date().toISOString(),
-        payload,
-        total_amount: payload.summary.totalAmount,
-        total_qty: payload.summary.totalQty,
-      }]),
-    });
+    let rows;
+    try {
+      rows = await dbRequest('/customer_invoices', {
+        method: 'POST',
+        body: JSON.stringify([{
+          customer_id: customer.id,
+          invoice_number: invoiceNumber,
+          invoice_date: new Date().toISOString(),
+          payload,
+          total_amount: payload.summary.totalAmount,
+          total_qty: payload.summary.totalQty,
+        }]),
+      });
+    } catch (error) {
+      const missingTable = error.code === 'PGRST205'
+        || /customer_invoices|schema cache/i.test(error.message || '');
+      if (missingTable) {
+        throw new Error('Invoice storage is not installed in Supabase. Apply the customer invoices migration, then try again.');
+      }
+      throw error;
+    }
 
     const row = rows && rows[0];
     return {
@@ -72,7 +82,7 @@ export const invoiceApi = {
     };
   },
 
-  async lookupByNumber(invoiceNumber) {
+  async lookupByNumber(invoiceNumber, options = {}) {
     if (!isSupabaseConfigured()) {
       throw new Error('Supabase is required to look up invoices.');
     }
@@ -80,10 +90,33 @@ export const invoiceApi = {
     const normalized = String(invoiceNumber || '').trim();
     if (!normalized) return null;
 
-    return dbRequest('/rpc/lookup_invoice_by_number', {
-      method: 'POST',
-      useUserToken: false,
-      body: JSON.stringify({ p_invoice_number: normalized }),
-    });
+    try {
+      return await dbRequest('/rpc/lookup_invoice_by_number', {
+        method: 'POST',
+        useUserToken: false,
+        body: JSON.stringify({ p_invoice_number: normalized }),
+      });
+    } catch (error) {
+      // Keep the authenticated dashboard usable while an older Supabase project
+      // is waiting for the public invoice RPC migration to be applied.
+      const missingRpc = error.code === 'PGRST202'
+        || /lookup_invoice_by_number|schema cache/i.test(error.message || '');
+      if (!missingRpc || !options.authenticatedFallback) throw error;
+
+      const encodedNumber = encodeURIComponent(normalized);
+      const rows = await dbRequest(
+        `/customer_invoices?select=payload,invoice_number,invoice_date,total_amount,total_qty&invoice_number=ilike.${encodedNumber}&limit=1`,
+      );
+      const row = rows && rows[0];
+      if (!row) return null;
+
+      return {
+        ...(row.payload || {}),
+        invoice_number: row.invoice_number,
+        invoice_date: row.invoice_date,
+        total_amount: row.total_amount,
+        total_qty: row.total_qty,
+      };
+    }
   },
 };

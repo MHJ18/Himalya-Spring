@@ -5,15 +5,22 @@ import { connect } from 'react-redux';
 import { motion } from 'framer-motion';
 import { ShakeX } from 'framer-motion-animations';
 import { loginUser } from '../../actions/user';
-import { hasStoredSession } from '../../services/cloud/supabaseClient';
+import {
+  consumeSessionExpiredNotice,
+  hasStoredSession,
+} from '../../services/cloud/supabaseClient';
 import './WaterLogin.css';
 
 function WaterLogin({ dispatch, isFetching, errorMessage, location }) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [sessionExpired] = React.useState(() => {
+    const storedNotice = consumeSessionExpiredNotice();
+    return Boolean(location.state && location.state.sessionExpired) || storedNotice;
+  });
   const from = (location.state && location.state.from) || { pathname: '/app/main/dashboard' };
-  const visibleError = errorMessage || (location.state && location.state.sessionExpired
-    ? 'Your session has expired. Please sign in again.'
+  const visibleError = errorMessage || (sessionExpired
+    ? 'Your session has expired. Log in again.'
     : '');
 
   if (hasStoredSession()) {
@@ -28,6 +35,18 @@ function WaterLogin({ dispatch, isFetching, errorMessage, location }) {
   return (
     <main className="water-login-page">
       <div className="water-login-shell">
+        <motion.section
+          className="water-login-mobile-brand"
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35 }}
+        >
+          <span className="water-login-logo-mark">HS</span>
+          <div>
+            <h1>Himaliya Spring Water</h1>
+            <p>Water delivery management</p>
+          </div>
+        </motion.section>
         <motion.section
           className="water-login-copy"
           initial={{ opacity: 0, y: 20 }}
@@ -59,6 +78,11 @@ function WaterLogin({ dispatch, isFetching, errorMessage, location }) {
               <h2>Himaliya Spring Water</h2>
               <p>Admin dashboard</p>
             </div>
+          </div>
+
+          <div className="water-login-mobile-heading">
+            <h2>Welcome back</h2>
+            <p>Sign in to continue to your dashboard.</p>
           </div>
 
           <form className="water-login-form" method="post" onSubmit={handleSubmit} autoComplete="on" noValidate>

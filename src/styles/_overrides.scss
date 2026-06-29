@@ -506,6 +506,27 @@ small {
   color: $gray-600;
 }
 
+.breadcrumb-compact {
+  .breadcrumb {
+    gap: 0;
+    margin-bottom: 0.7rem;
+    font-size: 0.68rem;
+    line-height: 1.2;
+  }
+
+  .breadcrumb-item {
+    letter-spacing: 0.025em;
+  }
+
+  .breadcrumb-item + .breadcrumb-item {
+    padding-left: 0.4rem;
+  }
+
+  .breadcrumb-item + .breadcrumb-item::before {
+    padding-right: 0.4rem;
+  }
+}
+
 ///////// Glyphicons //////////
 
 .glyphicon {

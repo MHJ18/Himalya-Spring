@@ -1,12 +1,14 @@
 const SESSION_KEY = 'hs_supabase_session';
 const SESSION_EXPIRED_EVENT = 'hs:session-expired';
 const SESSION_READY_EVENT = 'hs:session-ready';
+const SESSION_EXPIRED_NOTICE_KEY = 'hs_session_expired_notice';
 let sessionExpiryNotified = false;
 
 function notifySessionExpired() {
   if (sessionExpiryNotified) return;
   sessionExpiryNotified = true;
   clearStoredSession();
+  sessionStorage.setItem(SESSION_EXPIRED_NOTICE_KEY, '1');
   window.dispatchEvent(new CustomEvent(SESSION_EXPIRED_EVENT));
 }
 
@@ -16,6 +18,16 @@ export function getSessionExpiredEventName() {
 
 export function getSessionReadyEventName() {
   return SESSION_READY_EVENT;
+}
+
+export function hasSessionExpiredNotice() {
+  return sessionStorage.getItem(SESSION_EXPIRED_NOTICE_KEY) === '1';
+}
+
+export function consumeSessionExpiredNotice() {
+  const hasNotice = hasSessionExpiredNotice();
+  if (hasNotice) sessionStorage.removeItem(SESSION_EXPIRED_NOTICE_KEY);
+  return hasNotice;
 }
 
 function getConfig() {
@@ -45,6 +57,7 @@ export function getStoredSession() {
 
 export function storeSession(session) {
   sessionExpiryNotified = false;
+  sessionStorage.removeItem(SESSION_EXPIRED_NOTICE_KEY);
   localStorage.setItem(SESSION_KEY, JSON.stringify(session));
   window.dispatchEvent(new CustomEvent(SESSION_READY_EVENT));
 }
@@ -102,7 +115,7 @@ async function parseResponse(response) {
     const description = body && (body.msg || body.message || body.error_description || body.error);
     const error = new Error(description || 'Supabase request failed');
     error.status = response.status;
-    error.code = body && (body.error_code || body.error);
+    error.code = body && (body.code || body.error_code || body.error);
     throw error;
   }
   return body;
@@ -176,4 +189,5 @@ export async function signOut() {
     }
   }
   clearStoredSession();
+  sessionStorage.removeItem(SESSION_EXPIRED_NOTICE_KEY);
 }

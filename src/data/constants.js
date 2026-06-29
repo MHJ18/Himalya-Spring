@@ -7,6 +7,10 @@ export const BOTTLE_TYPES = [
   'Gallon',
 ];
 
+export const BOTTLE_TYPE_LABELS = {
+  Gallon: '19L Gallon',
+};
+
 export const FILTER_PERIODS = {
   DAILY: 'daily',
   WEEKLY: 'weekly',

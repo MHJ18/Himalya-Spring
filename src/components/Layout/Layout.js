@@ -8,6 +8,7 @@ import Hammer from 'rc-hammerjs';
 import Dashboard from '../../pages/himalaya/Dashboard';
 import AddCustomer from '../../pages/himalaya/AddCustomer';
 import CustomerRecords from '../../pages/himalaya/CustomerRecords';
+import EditCustomer from '../../pages/himalaya/EditCustomer';
 import DailySales from '../../pages/himalaya/DailySales';
 import Analytics from '../../pages/himalaya/Analytics';
 import Settings from '../../pages/himalaya/Settings';
@@ -113,6 +114,7 @@ class Layout extends React.Component {
                     <Route path="/app/main/dashboard" exact component={Dashboard} />
                     <Route path="/app/add-customer" exact component={AddCustomer} />
                     <Route path="/app/customers" exact component={CustomerRecords} />
+                    <Route path="/app/customers/:customerId/edit" exact component={EditCustomer} />
                     <Route path="/app/invoice" exact component={InvoiceLookup} />
                     <Route path="/app/daily-sales" exact component={DailySales} />
                     <Route path="/app/analytics" exact component={Analytics} />
