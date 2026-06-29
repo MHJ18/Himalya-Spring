@@ -122,10 +122,29 @@ function checkValidServiceWorker(swUrl, config) {
     });
 }
 
-export function unregister() {
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.ready.then(registration => {
-      registration.unregister();
-    });
+export async function unregister() {
+  if (!('serviceWorker' in navigator)) return;
+
+  try {
+    const wasControlled = Boolean(navigator.serviceWorker.controller);
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    await Promise.all(registrations.map(registration => registration.unregister()));
+
+    if ('caches' in window) {
+      const cacheNames = await window.caches.keys();
+      const oldAppCaches = cacheNames.filter(name => /workbox|precache|runtime/i.test(name));
+      await Promise.all(oldAppCaches.map(name => window.caches.delete(name)));
+    }
+
+    const reloadKey = 'hs_service_worker_cleanup_reload';
+    if (wasControlled && sessionStorage.getItem(reloadKey) !== '1') {
+      sessionStorage.setItem(reloadKey, '1');
+      window.location.reload();
+      return;
+    }
+    sessionStorage.removeItem(reloadKey);
+  } catch (error) {
+    // Service-worker cleanup must never prevent the application from opening.
+    console.warn('Could not finish legacy offline-cache cleanup.', error);
   }
 }

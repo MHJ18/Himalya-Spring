@@ -13,7 +13,7 @@ class HeaderSearch extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { searchQuery: '', searchFocused: false };
+    this.state = { searchQuery: '' };
   }
 
   getSearchResults = () => {
@@ -38,7 +38,7 @@ class HeaderSearch extends React.Component {
   };
 
   render() {
-    const { searchQuery, searchFocused } = this.state;
+    const { searchQuery } = this.state;
     const results = this.getSearchResults();
 
     return (
@@ -53,8 +53,6 @@ class HeaderSearch extends React.Component {
             <Input
               value={searchQuery}
               onChange={(event) => this.setState({ searchQuery: event.target.value })}
-              onFocus={() => this.setState({ searchFocused: true })}
-              onBlur={() => this.setState({ searchFocused: false })}
               className="input-transparent"
               placeholder="Search customers, sales, pages"
               aria-label="Search dashboard"
